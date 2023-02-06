@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Classification } from './classification.entity';
+import { Tag } from './tag.entity';
 
 @Entity()
 export class Artifact {
@@ -28,4 +36,12 @@ export class Artifact {
 
   @Column({ type: 'uuid', unique: true })
   imageId: string;
+
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
+
+  @ManyToMany(() => Classification)
+  @JoinTable()
+  classifications: Classification[];
 }

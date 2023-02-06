@@ -21,7 +21,13 @@ export class ArtifactService {
   }
 
   findOne(id: number) {
-    return this.artifactRepository.findOneBy({ id });
+    return this.artifactRepository.findOne({
+      where: { id },
+      relations: {
+        tags: true,
+        classifications: true,
+      },
+    });
   }
 
   update(id: number, updateArtifactDto: UpdateArtifactDto) {
