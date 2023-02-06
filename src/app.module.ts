@@ -5,6 +5,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArtifactModule } from './artifact/artifact.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { HashingModule } from './hashing/hashing.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { ArtifactModule } from './artifact/artifact.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     ArtifactModule,
+    AuthModule,
+    UserModule,
+    HashingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
