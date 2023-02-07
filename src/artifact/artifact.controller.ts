@@ -6,13 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { Public } from 'src/auth/public.decorator';
 import { Role } from 'src/user/role.enum';
 import { Roles } from 'src/user/roles.decorator';
 import { ArtifactService } from './artifact.service';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
+import { Artifact } from './entities/artifact.entity';
 
 @Controller('artifact')
 export class ArtifactController {
@@ -26,8 +31,16 @@ export class ArtifactController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.artifactService.findAll();
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+  ): Promise<Pagination<Artifact>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.artifactService.paginate({
+      page,
+      limit,
+      route: 'http://localhost:3000/artifacts',
+    });
   }
 
   @Public()

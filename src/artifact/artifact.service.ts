@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
@@ -16,8 +21,8 @@ export class ArtifactService {
     return 'This action adds a new artifact';
   }
 
-  findAll() {
-    return this.artifactRepository.find();
+  async paginate(options: IPaginationOptions): Promise<Pagination<Artifact>> {
+    return paginate<Artifact>(this.artifactRepository, options);
   }
 
   findOne(id: number) {
