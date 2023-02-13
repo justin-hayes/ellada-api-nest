@@ -7,9 +7,12 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { PlainObjectToNewEntityTransformer } from 'typeorm/query-builder/transformer/PlainObjectToNewEntityTransformer';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
 import { Artifact } from './entities/artifact.entity';
+
+interface RawArtifact {}
 
 @Injectable()
 export class ArtifactService {
@@ -26,11 +29,13 @@ export class ArtifactService {
     return paginate<Artifact>(this.artifactRepository, options);
   }
 
-  async findRandom(): Promise<Artifact> {
-    const artifacts = await this.artifactRepository.query(
-      'SELECT * FROM artifact TABLESAMPLE SYSTEM_ROWS(1)',
+  async findRandom() {
+    const result = await this.artifactRepository.query(
+      'SELECT id FROM artifact TABLESAMPLE SYSTEM_ROWS(1)',
     );
-    return artifacts[0];
+
+    const id = parseInt(result[0].id);
+    return this.findOne(id);
   }
 
   async findOne(id: number) {
