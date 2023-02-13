@@ -8,6 +8,7 @@ import { Classification } from './entities/classification.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Artifact, Tag, Classification])],
+  exports: [ArtifactService],
   controllers: [ArtifactController],
   providers: [ArtifactService],
 })

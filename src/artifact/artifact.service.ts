@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  IPaginationMeta,
   IPaginationOptions,
   paginate,
   Pagination,
@@ -25,7 +26,14 @@ export class ArtifactService {
     return paginate<Artifact>(this.artifactRepository, options);
   }
 
-  findOne(id: number) {
+  async findRandom(): Promise<Artifact> {
+    const artifacts = await this.artifactRepository.query(
+      'SELECT * FROM artifact TABLESAMPLE SYSTEM_ROWS(1)',
+    );
+    return artifacts[0];
+  }
+
+  async findOne(id: number) {
     return this.artifactRepository.findOne({
       where: { id },
       relations: {

@@ -8,6 +8,7 @@ import { ArtifactModule } from './artifact/artifact.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { HashingModule } from './hashing/hashing.module';
+import { RandomModule } from './random/random.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HashingModule } from './hashing/hashing.module';
     AuthModule,
     UserModule,
     HashingModule,
+    RandomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
