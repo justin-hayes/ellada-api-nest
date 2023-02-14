@@ -17,7 +17,7 @@ import { Roles } from 'src/user/roles.decorator';
 import { ArtifactService } from './artifact.service';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
-import { Artifact } from './entities/artifact.entity';
+import { Artifact, Period } from './entities/artifact.entity';
 
 @Controller('artifact')
 export class ArtifactController {
@@ -34,13 +34,29 @@ export class ArtifactController {
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('period') period: Period,
+    @Query('tag') tag: string,
+    @Query('classification') classification: string,
   ): Promise<Pagination<Artifact>> {
     limit = limit > 100 ? 100 : limit;
-    return this.artifactService.paginate({
-      page,
-      limit,
-      route: 'http://localhost:3000/artifacts',
-    });
+    return this.artifactService.paginate(
+      {
+        page,
+        limit,
+        route: 'http://localhost:3000/artifacts',
+      },
+      {
+        where: {
+          period,
+          tags: {
+            name: tag,
+          },
+          classifications: {
+            name: classification,
+          },
+        },
+      },
+    );
   }
 
   @Public()

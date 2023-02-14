@@ -3,11 +3,15 @@ import { ArtifactService } from './artifact.service';
 import { ArtifactController } from './artifact.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Artifact } from './entities/artifact.entity';
-import { Tag } from './entities/tag.entity';
-import { Classification } from './entities/classification.entity';
+import { TagModule } from '../tag/tag.module';
+import { ClassificationModule } from '../classification/classification.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Artifact, Tag, Classification])],
+  imports: [
+    TagModule,
+    ClassificationModule,
+    TypeOrmModule.forFeature([Artifact]),
+  ],
   exports: [ArtifactService],
   controllers: [ArtifactController],
   providers: [ArtifactService],

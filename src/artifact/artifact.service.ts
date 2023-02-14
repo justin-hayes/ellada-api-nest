@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-  IPaginationMeta,
   IPaginationOptions,
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
-import { Repository } from 'typeorm';
-import { PlainObjectToNewEntityTransformer } from 'typeorm/query-builder/transformer/PlainObjectToNewEntityTransformer';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
 import { Artifact } from './entities/artifact.entity';
-
-interface RawArtifact {}
+import { Classification } from 'src/classification/entities/classification.entity';
+import { Tag } from '../tag/entities/tag.entity';
 
 @Injectable()
 export class ArtifactService {
@@ -25,8 +23,11 @@ export class ArtifactService {
     return 'This action adds a new artifact';
   }
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<Artifact>> {
-    return paginate<Artifact>(this.artifactRepository, options);
+  async paginate(
+    options: IPaginationOptions,
+    findOptions: FindManyOptions<Artifact>,
+  ): Promise<Pagination<Artifact>> {
+    return paginate<Artifact>(this.artifactRepository, options, findOptions);
   }
 
   async findRandom() {
@@ -35,6 +36,7 @@ export class ArtifactService {
     );
 
     const id = parseInt(result[0].id);
+
     return this.findOne(id);
   }
 

@@ -5,8 +5,10 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Classification } from './classification.entity';
-import { Tag } from './tag.entity';
+import { Classification } from '../../classification/entities/classification.entity';
+import { Tag } from '../../tag/entities/tag.entity';
+
+export type Period = 'Archaic' | 'Classical' | 'Hellenistic';
 
 @Entity()
 export class Artifact {
