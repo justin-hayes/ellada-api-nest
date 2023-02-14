@@ -9,6 +9,7 @@ export class TagController {
   @Public()
   @Get()
   async findAll() {
-    return this.tagService.findAll();
+    const tags = await this.tagService.findAll();
+    return tags.map((t) => t.name);
   }
 }

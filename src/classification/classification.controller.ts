@@ -9,6 +9,7 @@ export class ClassificationController {
   @Public()
   @Get()
   async findAll() {
-    return this.classificationService.findAll();
+    const classifications = await this.classificationService.findAll();
+    return classifications.map((c) => c.name);
   }
 }
