@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ArtifactService } from '../artifact/artifact.service';
 import { RandomController } from './random.controller';
 
 describe('RandomController', () => {
@@ -7,6 +8,12 @@ describe('RandomController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RandomController],
+      providers: [
+        {
+          provide: ArtifactService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
     controller = module.get<RandomController>(RandomController);

@@ -11,9 +11,9 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Public } from 'src/auth/public.decorator';
-import { Role } from 'src/user/role.enum';
-import { Roles } from 'src/user/roles.decorator';
+import { Public } from '../auth/public.decorator';
+import { Role } from '../user/role.enum';
+import { Roles } from '../user/roles.decorator';
 import { ArtifactService } from './artifact.service';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';

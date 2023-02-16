@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { HashingService } from 'src/hashing/hashing.service';
-import { UserService } from 'src/user/user.service';
+import { HashingService } from '../hashing/hashing.service';
+import { UserService } from '../user/user.service';
 import jwtConfig from './jwt.config';
 
 export type UserAuth = {

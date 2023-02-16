@@ -8,7 +8,12 @@ describe('ArtifactController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ArtifactController],
-      providers: [ArtifactService],
+      providers: [
+        {
+          provide: ArtifactService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
     controller = module.get<ArtifactController>(ArtifactController);

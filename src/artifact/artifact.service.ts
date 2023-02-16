@@ -9,8 +9,6 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { CreateArtifactDto } from './dto/create-artifact.dto';
 import { UpdateArtifactDto } from './dto/update-artifact.dto';
 import { Artifact } from './entities/artifact.entity';
-import { Classification } from 'src/classification/entities/classification.entity';
-import { Tag } from '../tag/entities/tag.entity';
 
 @Injectable()
 export class ArtifactService {
