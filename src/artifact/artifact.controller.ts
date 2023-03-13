@@ -10,6 +10,7 @@ import {
   DefaultValuePipe,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Public } from '../auth/public.decorator';
 import { Role } from '../user/role.enum';
@@ -31,12 +32,27 @@ export class ArtifactController {
 
   @Public()
   @Get()
+  @ApiQuery({
+    name: 'period',
+    enum: ['Archaic', 'Classical', 'Hellenistic'],
+    required: false,
+  })
+  @ApiQuery({
+    name: 'tag',
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'classification',
+    type: String,
+    required: false,
+  })
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-    @Query('period') period: Period,
-    @Query('tag') tag: string,
-    @Query('classification') classification: string,
+    @Query('period') period?: Period,
+    @Query('tag') tag?: string,
+    @Query('classification') classification?: string,
   ): Promise<Pagination<Artifact>> {
     limit = limit > 100 ? 100 : limit;
     return this.artifactService.paginate(
@@ -61,8 +77,8 @@ export class ArtifactController {
 
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.artifactService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.artifactService.findOne(id);
   }
 
   @Roles(Role.Admin)
